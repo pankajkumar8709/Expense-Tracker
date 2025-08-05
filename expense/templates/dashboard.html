@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker | Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3a0ca3;
+            --accent-color: #4cc9f0;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --danger-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+            --border-radius: 10px;
+            --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7ff;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+        
+        .navbar {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        
+        .dashboard-header {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        
+        .dashboard-title {
+            color: var(--secondary-color);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .dashboard-subtitle {
+            color: var(--gray-color);
+            font-size: 1.1rem;
+        }
+        
+        .summary-card {
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            height: 100%;
+        }
+        
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .total-expense-card {
+            background: linear-gradient(135deg, #4361ee, #3a0ca3);
+            color: white;
+        }
+        
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-weight: 600;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius) var(--border-radius) 0 0 !important;
+        }
+        
+        .chart-container {
+            padding: 1rem;
+            background-color: white;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
+        }
+        
+        .chart-img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            padding: 0.6rem 1.5rem;
+            transition: var(--transition);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        
+        .action-buttons {
+            margin-bottom: 2rem;
+        }
+        
+        .last-updated {
+            font-size: 0.85rem;
+            color: var(--gray-color);
+            text-align: right;
+            margin-top: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-title {
+                font-size: 1.8rem;
+            }
+            
+            .dashboard-subtitle {
+                font-size: 1rem;
+            }
+        }
+        
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .summary-card {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .chart-card {
+            animation: fadeIn 0.7s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4" style="background: linear-gradient(135deg, #4361ee, #3a0ca3);">
+    <div class="container-fluid">
+        <!-- Back to Home Button (Left) -->
+        <a href="/" class="btn btn-outline-light me-2">
+            <i class="fas fa-home me-1"></i> Home
+        </a>
+        
+        <!-- Centered Brand Title -->
+        <div class="mx-auto">
+            <span class="navbar-brand mb-0 h1">
+                <i class="fas fa-wallet me-2"></i>Expense Tracker
+            </span>
+        </div>
+        
+        <!-- Right Side (Empty for balance, or add other elements) -->
+        <div style="width: 120px;">
+            <!-- This empty div maintains space balance -->
+            <!-- You can add user/settings buttons here if needed -->
+        </div>
+    </div>
+</nav>
+    <div class="container mb-5">
+        <!-- Dashboard Header with Add Expense Button -->
+        <div class="dashboard-header">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="dashboard-title">Expense Dashboard</h1>
+                    <p class="dashboard-subtitle">Track and analyze your spending patterns</p>
+                </div>
+                <a href="/main" class="btn btn-primary">
+                    <i class="fas fa-plus-circle me-2"></i>Add Expense
+                </a>
+            </div>
+            
+            <div class="last-updated">
+                <i class="fas fa-sync-alt me-1"></i> Last updated: {{ current_time }}
+            </div>
+        </div>
+
+        <!-- Summary Card -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card summary-card total-expense-card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h5 class="card-title mb-1">Total Expenses</h5>
+                                <p class="card-text mb-0">This month</p>
+                            </div>
+                            <h2 class="mb-0">₹{{ total_expenses }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="row">
+            <!-- Category Chart -->
+            <div class="col-lg-6 mb-4">
+                <div class="card chart-card h-100">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-chart-pie me-2"></i>Category Distribution</span>
+                        <select class="form-select form-select-sm" style="width: auto;">
+                            <option>This Month</option>
+                            <option>Last Month</option>
+                            <option>Last 3 Months</option>
+                            <option>This Year</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <img src="{{ url_for('static', filename='charts/category_chart.png') }}?t={{ timestamp }}" 
+                             alt="Category Chart" class="chart-img">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monthly Trend -->
+            <div class="col-lg-6 mb-4">
+                <div class="card chart-card h-100">
+                    <div class="card-header">
+                        <i class="fas fa-chart-line me-2"></i>Monthly Spending Trend
+                    </div>
+                    <div class="chart-container">
+                        <img src="{{ url_for('static', filename='charts/monthly_trend.png') }}?t={{ timestamp }}" 
+                             alt="Monthly Trend" class="chart-img">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Budget vs Actual -->
+            <div class="col-lg-6 mb-4">
+                <div class="card chart-card h-100">
+                    <div class="card-header">
+                        <i class="fas fa-balance-scale me-2"></i>Budget vs Actual
+                    </div>
+                    <div class="chart-container">
+                        <img src="{{ url_for('static', filename='charts/budget_vs_actual.png') }}?t={{ timestamp }}" 
+                             alt="Budget vs Actual" class="chart-img">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Transactions Section -->
+<div class="col-lg-6 mb-4">
+    <div class="card chart-card h-100">
+        <div class="card-header">
+            <i class="fas fa-history me-2"></i>Recent Transactions
+        </div>
+        <div class="chart-container" style="min-height: 300px; padding: 0;">
+            <div class="table-responsive" style="max-height: 300px; overflow-y: auto;">
+                <table class="table table-hover mb-0">
+                    <thead style="position: sticky; top: 0; background: white; z-index: 1;">
+                        <tr>
+                            <th style="padding: 1rem; border-top: none;">Date</th>
+                            <th style="padding: 1rem; border-top: none;">Category</th>
+                            <th style="padding: 1rem; border-top: none; text-align: right;">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for expense in all_expenses %}
+                        <tr style="border-bottom: 1px solid #f0f0f0;">
+                            <td style="padding: 1rem; color: var(--gray-color);">{{ expense.date.strftime('%Y-%m-%d') }}</td>
+                            <td style="padding: 1rem;">
+                                <span class="badge" style="background-color: #e9f7fe; color: var(--primary-color); padding: 0.35rem 0.65rem; border-radius: 50px;">
+                                    {{ expense.category }}
+                                </span>
+                            </td>
+                            <td style="padding: 1rem; text-align: right; font-weight: 600; color: var(--danger-color);">
+                                ₹{{ expense.amount }}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% if not all_expenses %}
+                <div class="d-flex align-items-center justify-content-center" style="height: 200px;">
+                    <p class="text-muted">No transactions found</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Footer -->
+    <footer class="bg-light py-3 mt-5">
+        <div class="container text-center">
+            <p class="text-muted mb-0">© 2025 Expense Tracker. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

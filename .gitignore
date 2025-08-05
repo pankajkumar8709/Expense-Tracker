@@ -1,0 +1,60 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Flask instance folder (used for configs or SQLite DBs)
+instance/
+
+# SQLite database files
+*.sqlite3
+*.db
+
+# Logs and local environment
+*.log
+*.env
+.env.*
+
+# macOS
+.DS_Store
+
+# VS Code settings
+.vscode/
+
+# Static chart images (optional if dynamically generated and not needed in repo)
+expense/static/charts/
+
+# Pytest cache
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+
+# Coverage reports
+htmlcov/
+.coverage
+
+# Unit test / coverage reports
+*.cover
+*.py,cover
+.cache
+nosetests.xml
+coverage.xml
+*.prof
+
+# Generated files
+*.png
+*.jpg
+*.jpeg
