@@ -14,7 +14,18 @@ MoneyPulse is a Flask-based web application that helps users track their expense
 - Organized project structure for scalability
 
 ## 🗂️ Project Structure
-![Project Structure](image.png)
+expense/
+├── static/
+│ └── charts/ # Generated chart images
+├── templates/
+│ ├── main.html # Base template
+│ ├── home.html # Home page
+│ └── dashboard.html # Expense dashboard with charts
+├── init.py # Flask app initialization
+├── models.py # Database models
+├── routes.py # Routes and logic
+instance/
+└── run.py # App entry point
 
 
 
@@ -23,5 +34,6 @@ MoneyPulse is a Flask-based web application that helps users track their expense
 1. **Clone the repo:**
 
 ```bash
-git clone https://github.com/your-username/expense-tracker.git
-cd expense-tracker
+git clone https://github.com/pankajkumar8709/Expense-Tracker.git
+cd Expense-Tracker
+
